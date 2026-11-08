@@ -20,8 +20,8 @@
     "./v2": "./src/v2/index.js"
   },
   "bin": {
-    "caddy-cli": "./bin/index.js",
-    "cally": "./bin/index.js"
+    "caddy-cli": "bin/index.js",
+    "cally": "bin/index.js"
   },
   "files": [
     "bin",
