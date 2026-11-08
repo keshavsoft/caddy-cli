@@ -1,6 +1,7 @@
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { query, paths } from "jsonpathly";
+import { getTemplate } from "caddy-template";
 
 export const HOST_EXPRESSION = "$..host[*]";
 
@@ -213,6 +214,119 @@ export function loadCaddyFile(filePath) {
   }
 }
 
+/**
+ * Programmatically add a new route to a Caddy configuration object.
+ * @param {object} caddyConfig - The parsed Caddy JSON configuration.
+ * @param {object} options - Options for route addition.
+ * @param {string} [options.template="proxy"] - Template name (proxy, ws-split, static, multi-host).
+ * @param {string|string[]} options.domain - Target domain name(s).
+ * @param {number|string} [options.port] - Target port.
+ * @param {number|string} [options.wsPort] - WebSocket port for split template.
+ * @param {number|string} [options.httpPort] - HTTP port for split template.
+ * @param {string} [options.root] - Document root for static template.
+ * @param {object} [options.route] - Raw pre-built route object (optional override).
+ * @param {boolean} [options.force=false] - Overwrite/add even if domain already exists.
+ * @returns {{ updatedConfig: object, newRoute: object, routeIndex: number }}
+ */
+export function addRoute(caddyConfig, options = {}) {
+  if (!caddyConfig || typeof caddyConfig !== "object") {
+    throw new Error("Invalid Caddy configuration: expected an object");
+  }
+
+  const {
+    template = "proxy",
+    domain,
+    port,
+    wsPort,
+    httpPort,
+    root,
+    route,
+    force = false
+  } = options;
+
+  if (!domain && !route) {
+    throw new Error("Missing required 'domain' option for route creation");
+  }
+
+  // Check if domain already exists
+  const targetDomains = Array.isArray(domain) ? domain : (domain ? [domain] : []);
+  if (!force && targetDomains.length > 0) {
+    for (const d of targetDomains) {
+      const existing = findRouteByHost(caddyConfig, d);
+      if (existing) {
+        throw new Error(
+          `Domain '${d}' is already configured in Caddy at route index ${existing.routeIndex}. Use --force to add anyway.`
+        );
+      }
+    }
+  }
+
+  // Obtain the route block: either raw provided or generated from caddy-template
+  const templateOpts = {
+    host: typeof domain === "string" ? domain : (Array.isArray(domain) ? domain[0] : "app.keshavsoft.com"),
+    hosts: Array.isArray(domain) ? domain : (domain ? [domain] : []),
+    dial: port,
+    httpDial: httpPort,
+    wsDial: wsPort,
+    root,
+    ...options
+  };
+
+  const newRoute = route || getTemplate(template, templateOpts);
+
+  // Ensure path apps.http.servers.srv0.routes exists
+  if (!caddyConfig.apps) caddyConfig.apps = {};
+  if (!caddyConfig.apps.http) caddyConfig.apps.http = {};
+  if (!caddyConfig.apps.http.servers) caddyConfig.apps.http.servers = {};
+
+  const serverKeys = Object.keys(caddyConfig.apps.http.servers);
+  const targetServerKey = serverKeys.length > 0 ? serverKeys[0] : "srv0";
+  if (!caddyConfig.apps.http.servers[targetServerKey]) {
+    caddyConfig.apps.http.servers[targetServerKey] = { listen: [":443"], routes: [] };
+  }
+  if (!Array.isArray(caddyConfig.apps.http.servers[targetServerKey].routes)) {
+    caddyConfig.apps.http.servers[targetServerKey].routes = [];
+  }
+
+  const routes = caddyConfig.apps.http.servers[targetServerKey].routes;
+  routes.push(newRoute);
+  const routeIndex = routes.length - 1;
+
+  return {
+    updatedConfig: caddyConfig,
+    newRoute,
+    routeIndex
+  };
+}
+
+/**
+ * Programmatically add a new route to a Caddy JSON file with automatic backup.
+ * @param {string} filePath - Path to caddy.json file.
+ * @param {object} options - Route addition options.
+ * @param {boolean} [options.backup=true] - Create a timestamped backup before writing.
+ * @returns {{ updatedConfig: object, newRoute: object, routeIndex: number, backupFile: string|null, filePath: string }}
+ */
+export function addRouteToFile(filePath, options = {}) {
+  const resolvedPath = resolve(process.cwd(), filePath);
+  const caddyConfig = loadCaddyFile(filePath);
+  const shouldBackup = options.backup !== false;
+
+  let backupFile = null;
+  if (shouldBackup) {
+    backupFile = `${resolvedPath}.bak.${Date.now()}`;
+    writeFileSync(backupFile, JSON.stringify(caddyConfig, null, 2), "utf8");
+  }
+
+  const result = addRoute(caddyConfig, options);
+  writeFileSync(resolvedPath, JSON.stringify(result.updatedConfig, null, 2), "utf8");
+
+  return {
+    ...result,
+    backupFile,
+    filePath: resolvedPath
+  };
+}
+
 extractHosts.extractHosts = extractHosts;
 extractHosts.HOST_EXPRESSION = HOST_EXPRESSION;
 extractHosts.inspectRoutes = inspectRoutes;
@@ -223,5 +337,7 @@ extractHosts.inspectRoutesFromFile = inspectRoutesFromFile;
 extractHosts.getPortMappingsFromFile = getPortMappingsFromFile;
 extractHosts.findRouteByHostFromFile = findRouteByHostFromFile;
 extractHosts.loadCaddyFile = loadCaddyFile;
+extractHosts.addRoute = addRoute;
+extractHosts.addRouteToFile = addRouteToFile;
 
 export default extractHosts;

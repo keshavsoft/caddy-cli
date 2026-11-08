@@ -8,7 +8,9 @@ import {
   getPortMappings,
   getPortMappingsFromFile,
   findRouteByHost,
-  findRouteByHostFromFile
+  findRouteByHostFromFile,
+  addRoute,
+  addRouteToFile
 } from "../src/index.js";
 import * as v2 from "../src/v2/index.js";
 
@@ -136,4 +138,45 @@ test("v2 exports parity between root and ./src/v2/index.js", () => {
   assert.equal(typeof v2.inspectRoutes, "function");
   assert.equal(typeof v2.getPortMappings, "function");
   assert.equal(typeof v2.findRouteByHost, "function");
+  assert.equal(typeof v2.addRoute, "function");
+  assert.equal(typeof v2.addRouteToFile, "function");
+});
+
+test("v2 addRoute programmatically appends a new route", () => {
+  const cfg = JSON.parse(JSON.stringify(mockConfig));
+  const result = addRoute(cfg, {
+    template: "proxy",
+    domain: "appointment.keshavsoft.com",
+    port: 3000
+  });
+
+  assert.equal(result.routeIndex, 2);
+  assert.deepEqual(result.newRoute.match[0].host, ["appointment.keshavsoft.com"]);
+  assert.equal(result.newRoute.terminal, true);
+
+  // Verify findRouteByHost finds it
+  const found = findRouteByHost(cfg, "appointment.keshavsoft.com");
+  assert.ok(found);
+  assert.deepEqual(found.targets[0].dials, ["localhost:3000"]);
+});
+
+test("v2 addRoute detects duplicate domain and requires force", () => {
+  const cfg = JSON.parse(JSON.stringify(mockConfig));
+  
+  assert.throws(() => {
+    addRoute(cfg, {
+      template: "proxy",
+      domain: "app.example.com",
+      port: 4000
+    });
+  }, /already configured/);
+
+  // With force = true
+  const result = addRoute(cfg, {
+    template: "proxy",
+    domain: "app.example.com",
+    port: 4000,
+    force: true
+  });
+  assert.ok(result);
 });

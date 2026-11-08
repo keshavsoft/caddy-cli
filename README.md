@@ -65,6 +65,11 @@ npx caddy-cli /etc/caddy/caddy.json
 Usage:
   npx caddy-cli [options] [path/to/caddy.json]
   npx caddy-cli [domain] [path/to/caddy.json]
+  npx caddy-cli add <template> <domain> <port/targets> [configPath] [flags]
+
+Commands:
+  add, insert           Programmatically add a new route using a blueprint template
+                        Templates: proxy, ws-split, static, multi-host
 
 Options:
   -h, --help            Show help message
@@ -73,6 +78,11 @@ Options:
   -p, --ports           Display port and upstream dial target mappings
   -d, --domain <host>   Inspect the complete configuration route for a specific subdomain
   --json                Output results as formatted JSON
+
+Add Flags:
+  --reload              Automatically trigger 'caddy reload' after writing
+  --force               Bypass duplicate domain check
+  --no-backup           Do not create a timestamped backup
 ```
 
 ---
@@ -139,6 +149,32 @@ npx caddy-cli cc9.keshavsoft.com
 # Raw JSON dump (perfect for piping to jq or scripts):
 npx caddy-cli cc9.keshavsoft.com --json
 ```
+
+---
+
+### 4. Programmatically Add a Route (`caddy-cli add`)
+Add a new subdomain route directly into `caddy.json` using verified `caddy-template` blueprints:
+
+```bash
+# Add standard unified proxy (e.g. CareCall appointment-notifier on port 3000):
+npx caddy-cli add proxy appointment.keshavsoft.com 3000
+
+# Add and immediately trigger zero-downtime hot reload:
+npx caddy-cli add proxy appointment.keshavsoft.com 3000 --reload
+
+# Add split WebSocket + HTTP proxy:
+npx caddy-cli add ws-split quotation.keshavsoft.com 9011 8080
+
+# Add static file server:
+npx caddy-cli add static doc.keshavsoft.com /usr/share/caddy
+```
+
+**What `caddy-cli add` handles automatically:**
+1. Checks for existing domain collisions to prevent duplicate routes.
+2. Creates an automatic timestamped backup (`caddy.json.bak.<timestamp>`).
+3. Inserts the clean, schema-compliant route block from `caddy-template`.
+4. Optionally triggers `caddy reload --config <file>` with `--reload`.
+5. Prints the updated route table.
 
 ---
 
