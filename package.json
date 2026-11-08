@@ -1,0 +1,38 @@
+{
+  "name": "caddy-cli",
+  "version": "1.1.1",
+  "description": "CLI tool to extract hostnames and paths from Caddy JSON configurations",
+  "license": "ISC",
+  "author": "KeshavSoft",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keshavsoft/caddy-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/keshavsoft/caddy-cli/issues"
+  },
+  "homepage": "https://github.com/keshavsoft/caddy-cli#readme",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./v1": "./src/v1/index.js"
+  },
+  "bin": {
+    "caddy-cli": "./bin/index.js",
+    "cally": "./bin/index.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "start": "node bin/index.js",
+    "cli": "node bin/index.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "jsonpathly": "^4.0.0"
+  }
+}
