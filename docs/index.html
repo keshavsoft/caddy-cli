@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>caddy-cli — Fast Caddy JSON Observability & Reverse Proxy Inspector</title>
+  <title>caddy-cli — The Human Lens for Caddy JSON</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Bootstrap Icons -->
@@ -23,14 +23,17 @@
         <span class="text-[10px] font-semibold text-amber-400 bg-amber-950/80 border border-amber-800/80 px-2 py-0.5 rounded-full">v1.2.0</span>
       </div>
 
-      <!-- Version & External Links -->
+      <!-- Nav Links -->
       <div class="flex items-center gap-2 text-xs font-mono">
-        <a href="./v1/" class="text-zinc-400 hover:text-zinc-200 px-2 py-1 rounded hover:bg-zinc-800/80 transition" title="Version 1: Hostnames & JSONPath">v1</a>
-        <a href="./v2/" class="text-zinc-400 hover:text-zinc-200 px-2 py-1 rounded hover:bg-zinc-800/80 transition" title="Version 2: Upstream Ports & Route Inspector">v2</a>
-        <a href="#architecture" class="text-zinc-400 hover:text-zinc-200 px-2 py-1 rounded hover:bg-zinc-800/80 transition">Architecture</a>
+        <a href="#why-json" class="text-zinc-400 hover:text-zinc-200 px-2 py-1 rounded hover:bg-zinc-800/80 transition">Why JSON?</a>
         <a href="#playground" class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded hover:bg-amber-500/30 transition flex items-center gap-1">
           <i class="bi bi-play-fill"></i>
           <span>Live Demo</span>
+        </a>
+        <a href="https://caddyserver.com/docs/" target="_blank" rel="noopener noreferrer"
+          class="text-zinc-400 hover:text-emerald-400 px-2 py-1 rounded hover:bg-zinc-800/80 transition flex items-center gap-1" title="Official Caddy Documentation">
+          <span>caddyserver.com</span>
+          <i class="bi bi-box-arrow-up-right text-[10px]"></i>
         </a>
         <a href="https://www.npmjs.com/package/caddy-cli" target="_blank" rel="noopener noreferrer"
           class="text-zinc-400 hover:text-red-400 p-1.5 transition ml-1" title="View on npm">
@@ -50,72 +53,72 @@
     <!-- Status Badge -->
     <div class="inline-flex items-center gap-2 bg-zinc-900 border border-amber-800/60 text-amber-400 px-3.5 py-1 rounded-full text-xs font-medium mb-6 shadow-sm">
       <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span>Published &amp; Live on npm: <code class="font-mono text-zinc-200">npx caddy-cli@latest</code></span>
+      <span>Published &amp; Live: <code class="font-mono text-zinc-200">npx caddy-cli</code></span>
     </div>
 
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl leading-tight mb-6">
-      Instant Observability for <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Caddy JSON</span> Configurations
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white max-w-3xl leading-tight mb-4">
+      The Human Lens for <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">Caddy JSON</span>
     </h1>
 
-    <p class="text-base sm:text-lg text-zinc-400 max-w-3xl mb-8 leading-relaxed">
-      A fast, zero-friction CLI that eliminates the pain of parsing complex, deeply-nested Caddy reverse-proxy JSON. Extract all subdomains, map them to their upstream ports and backend dial targets, and inspect individual routes directly on your VPS or local machine with <strong>zero installation</strong>.
+    <p class="text-base sm:text-lg text-zinc-400 max-w-2xl mb-8 leading-relaxed">
+      Get the human readability of a <a href="https://caddyserver.com/docs/caddyfile" target="_blank" class="text-amber-400 underline underline-offset-4 hover:text-amber-300">Caddyfile</a> directly on native <a href="https://caddyserver.com/docs/json/" target="_blank" class="text-amber-400 underline underline-offset-4 hover:text-amber-300">Caddy JSON</a>. Instant zero-install observability for subdomains, upstream reverse proxies, and port bindings.
     </p>
 
     <!-- Quick Run Terminal Pill -->
-    <div class="w-full max-w-xl bg-zinc-900 border border-zinc-800 rounded-xl p-3 mb-10 flex items-center justify-between text-left font-mono text-xs text-zinc-300 shadow-xl">
+    <div class="w-full max-w-xl bg-zinc-900 border border-zinc-800 rounded-xl p-3 mb-8 flex items-center justify-between text-left font-mono text-xs text-zinc-300 shadow-xl">
       <div class="flex items-center gap-2 overflow-x-auto">
         <span class="text-amber-400">$</span>
         <span>npx caddy-cli</span>
-        <span class="text-zinc-500"># auto-detects ./caddy.json or /etc/caddy/caddy.json</span>
+        <span class="text-zinc-500"># auto-resolves ./caddy.json or /etc/caddy/caddy.json</span>
       </div>
-      <button onclick="navigator.clipboard.writeText('npx caddy-cli')" class="hover:text-white text-zinc-400 transition ml-3 px-2 py-1 bg-zinc-800 rounded hover:bg-zinc-700">
+      <button onclick="navigator.clipboard.writeText('npx caddy-cli')" class="hover:text-white text-zinc-400 transition ml-3 px-2 py-1 bg-zinc-800 rounded hover:bg-zinc-700" title="Copy command">
         <i class="bi bi-clipboard"></i>
       </button>
     </div>
 
-    <!-- CTA Action Buttons -->
-    <div class="flex flex-wrap items-center justify-center gap-3.5 mb-16">
-      <a href="#playground"
-        class="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-semibold text-sm px-6 py-3 rounded-lg shadow-lg shadow-amber-950/60 transition transform hover:-translate-y-0.5 active:translate-y-0">
-        <i class="bi bi-play-circle-fill text-lg"></i>
-        <span>Try Interactive Playground</span>
+    <!-- Quick Links to caddyserver.com -->
+    <div class="flex flex-wrap items-center justify-center gap-2 mb-14 text-xs font-mono">
+      <span class="text-zinc-500">Official Caddy Docs:</span>
+      <a href="https://caddyserver.com/docs/json/" target="_blank" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-2.5 py-1 rounded transition flex items-center gap-1">
+        <span>JSON Config Structure</span>
+        <i class="bi bi-box-arrow-up-right text-[10px] text-zinc-500"></i>
       </a>
-      <a href="https://www.npmjs.com/package/caddy-cli" target="_blank" rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-700/80 font-semibold text-sm px-5 py-3 rounded-lg transition">
-        <i class="bi bi-box-seam text-amber-400"></i>
-        <span>npm Package</span>
+      <a href="https://caddyserver.com/docs/json/apps/http/servers/routes/handle/reverse_proxy/" target="_blank" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-2.5 py-1 rounded transition flex items-center gap-1">
+        <span>Reverse Proxy &amp; Upstreams</span>
+        <i class="bi bi-box-arrow-up-right text-[10px] text-zinc-500"></i>
       </a>
-      <a href="https://github.com/keshavsoft/caddy-cli" target="_blank" rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 bg-zinc-900/60 hover:bg-zinc-800 text-zinc-400 hover:text-zinc-200 border border-zinc-800 font-semibold text-sm px-4 py-3 rounded-lg transition">
-        <i class="bi bi-github"></i>
-        <span>GitHub Repository</span>
+      <a href="https://caddyserver.com/docs/api" target="_blank" class="bg-zinc-900 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 px-2.5 py-1 rounded transition flex items-center gap-1">
+        <span>Admin API (:2019)</span>
+        <i class="bi bi-box-arrow-up-right text-[10px] text-zinc-500"></i>
       </a>
     </div>
 
-    <!-- Why Caddy CLI Section -->
-    <section class="w-full text-left bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 sm:p-8 mb-12 shadow-md">
+    <!-- The Core Value: Why JSON in Place of Caddyfile? -->
+    <section id="why-json" class="w-full text-left bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 sm:p-8 mb-12 shadow-md">
       <div class="flex items-center gap-2 text-amber-400 font-semibold text-xs tracking-wider uppercase mb-3">
-        <i class="bi bi-lightbulb-fill"></i>
-        <span>The Problem &amp; The Solution</span>
+        <i class="bi bi-lightning-charge-fill"></i>
+        <span>In Place of Caddyfile</span>
       </div>
-      <h2 class="text-2xl font-bold text-white mb-4">Why We Defined caddy-cli</h2>
+      <h2 class="text-2xl font-bold text-white mb-3">Why Native Caddy JSON?</h2>
       <div class="space-y-4 text-zinc-300 text-sm leading-relaxed">
         <p>
-          <strong class="text-white">Caddy</strong> is one of the most powerful modern web servers in existence: automatic TLS, HTTP/3, and a high-performance native JSON configuration engine. However, when managing a VPS running multiple microservices, Node.js backends, WebSocket handlers, and static sites, <code class="text-amber-300 font-mono">/etc/caddy/caddy.json</code> rapidly grows into <strong>hundreds of lines of nested arrays</strong>:
+          According to the <a href="https://caddyserver.com/docs/getting-started#the-caddyfile-is-an-adapter" target="_blank" class="text-amber-400 underline underline-offset-4 hover:text-amber-300">official Caddy documentation</a>, the <strong>Caddyfile is just an adapter</strong>. Under the hood:
         </p>
-        <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-3 font-mono text-xs text-zinc-400 overflow-x-auto">
-          apps &rarr; http &rarr; servers &rarr; srv0 &rarr; routes[0] &rarr; handle[0] &rarr; routes[1] &rarr; handle[0] &rarr; upstreams[0] &rarr; dial: "localhost:9011"
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-2">
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-lg">
+            <div class="text-amber-400 font-bold text-xs uppercase tracking-wide mb-1">Caddyfile Adapter</div>
+            <p class="text-zinc-400 text-xs">Great for human text editing, but static, requiring compilation and lacks dynamic programmatic API controls.</p>
+          </div>
+          <div class="bg-zinc-950 border border-zinc-800 p-4 rounded-lg border-amber-500/30">
+            <div class="text-emerald-400 font-bold text-xs uppercase tracking-wide mb-1">Native Caddy JSON</div>
+            <p class="text-zinc-400 text-xs">The true source of truth. Powers live zero-downtime reconfiguration over the <a href="https://caddyserver.com/docs/api" target="_blank" class="text-amber-300 underline">Caddy Admin API</a>.</p>
+          </div>
         </div>
         <p>
-          Whenever a developer SSH'es into a VPS or checks a machine, they always face three essential questions:
+          <strong>The Catch:</strong> When you manage 10+ reverse proxies on a VPS, native Caddy JSON becomes deeply nested with <code class="text-amber-300 font-mono">apps.http.servers.srv0.routes</code>. 
         </p>
-        <ul class="list-disc list-inside space-y-1.5 ml-2 text-zinc-300">
-          <li><strong>What subdomains are live right now?</strong></li>
-          <li><strong>Which local port / upstream does each domain forward to?</strong> (Is port 3001 free? Which service is on 9328?)</li>
-          <li><strong>What does the specific routing block look like for a single domain?</strong></li>
-        </ul>
         <p>
-          Manually scrolling through 300 lines of JSON or writing fragile <code class="text-amber-300 font-mono">jq</code> expressions over SSH is slow and prone to errors. <strong class="text-white">caddy-cli</strong> solves this completely: run <code class="text-amber-300 font-mono">npx caddy-cli</code> anywhere and instantly get clean, structured observability in milliseconds.
+          <strong>The caddy-cli Bridge:</strong> You don't have to choose! Use native Caddy JSON for all its programmatic power, while <code class="text-amber-300 font-mono">caddy-cli</code> gives you instant, crystal-clear visibility.
         </p>
       </div>
     </section>
@@ -127,19 +130,16 @@
           <i class="bi bi-play-circle-fill"></i>
           <span>Interactive Browser Playground</span>
         </div>
-        <div class="flex items-center gap-2">
-          <button id="btnLoadSample" class="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1 rounded transition border border-zinc-700">
-            <i class="bi bi-arrow-clockwise"></i> Load Sample Caddy JSON
-          </button>
-        </div>
+        <button id="btnLoadSample" class="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1 rounded transition border border-zinc-700">
+          <i class="bi bi-arrow-clockwise"></i> Load Sample Caddy JSON
+        </button>
       </div>
 
       <p class="text-zinc-400 text-xs mb-4">
-        Paste your own Caddy JSON below or use our sample, then click the buttons to test the CLI output algorithms live in your browser:
+        Paste your Caddy JSON below or click the sample button, then toggle commands to test the extraction live in your browser:
       </p>
 
-      <!-- Input JSON Textarea -->
-      <textarea id="caddyInput" rows="7" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 font-mono text-xs text-zinc-300 focus:outline-none focus:border-amber-500 mb-4" placeholder="Paste your Caddy JSON here..."></textarea>
+      <textarea id="caddyInput" rows="6" class="w-full bg-zinc-950 border border-zinc-800 rounded-lg p-3 font-mono text-xs text-zinc-300 focus:outline-none focus:border-amber-500 mb-4" placeholder="Paste your Caddy JSON here..."></textarea>
 
       <!-- Playground Action Buttons -->
       <div class="flex flex-wrap items-center gap-2 mb-4">
@@ -161,114 +161,102 @@
       </div>
 
       <!-- Playground Output Area -->
-      <div id="outputArea" class="bg-zinc-950 border border-zinc-800 rounded-lg p-4 font-mono text-xs overflow-x-auto text-zinc-300 min-h-[160px] max-h-[380px]">
+      <div id="outputArea" class="bg-zinc-950 border border-zinc-800 rounded-lg p-4 font-mono text-xs overflow-x-auto text-zinc-300 min-h-[160px] max-h-[360px]">
         <div class="text-zinc-500 italic">Click any button above to inspect routes...</div>
       </div>
     </section>
 
-    <!-- Architecture Section -->
-    <section id="architecture" class="w-full text-left bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 sm:p-8 mb-12 shadow-md">
+    <!-- Architecture & Caddy Reference Section -->
+    <section class="w-full text-left bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 sm:p-8 mb-12 shadow-md">
       <div class="flex items-center gap-2 text-amber-400 font-semibold text-xs tracking-wider uppercase mb-3">
-        <i class="bi bi-cpu-fill"></i>
-        <span>Engineering &amp; Design Architecture</span>
+        <i class="bi bi-book-half"></i>
+        <span>Official Caddy Reference &amp; Internal Engine</span>
       </div>
-      <h2 class="text-2xl font-bold text-white mb-4">How We Thought Through the Architecture</h2>
-      <div class="space-y-4 text-zinc-300 text-sm leading-relaxed">
-        <h3 class="text-lg font-semibold text-zinc-100 flex items-center gap-2">
-          <span>1. The JSONPath Engine (<code class="text-amber-300 font-mono">jsonpathly</code>)</span>
-        </h3>
-        <p>
-          Instead of hardcoding brittle recursive loops that break whenever Caddy adds a new wrapper or nesting level, we leverage <code class="text-amber-300 font-mono">jsonpathly</code> with the universal JSONPath expression:
-        </p>
-        <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-3 font-mono text-xs text-amber-300">
-          export const HOST_EXPRESSION = "$..host[*]";
-        </div>
-        <p>
-          This immediately extracts every single host declaration across all HTTP servers, subroutes, and handlers, along with their exact structural JSON paths in the configuration tree.
-        </p>
+      <h2 class="text-2xl font-bold text-white mb-4">How It Works &amp; Official References</h2>
 
-        <h3 class="text-lg font-semibold text-zinc-100 flex items-center gap-2 mt-6">
-          <span>2. Modular Version Evolution (<code class="text-amber-300 font-mono">src/v1</code>, <code class="text-amber-300 font-mono">src/v2</code>, <code class="text-amber-300 font-mono">src/v3</code>)</span>
-        </h3>
-        <p>
-          Inspired by the KeshavSoft versioned architecture (seen in <code class="text-sky-300 font-mono">monaco-ide</code> and <code class="text-sky-300 font-mono">spec-repo</code>), each major milestone lives in its own dedicated version folder. The root entry points (<code class="text-zinc-200 font-mono">src/index.js</code> and <code class="text-zinc-200 font-mono">src/cli.js</code>) cleanly re-export the active flagship while maintaining backwards compatibility:
-        </p>
-        <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-3 font-mono text-xs text-zinc-300">
-          caddy-cli/<br>
-          ├── bin/index.js<br>
-          ├── src/<br>
-          │   ├── v1/       <span class="text-zinc-500"># Hostname &amp; JSONPath querying</span><br>
-          │   ├── v2/       <span class="text-zinc-500"># Upstream ports, reverse proxy dials &amp; domain drill-down</span><br>
-          │   ├── cli.js    <span class="text-zinc-500"># Re-exports active CLI</span><br>
-          │   └── index.js  <span class="text-zinc-500"># Re-exports active ESM API</span><br>
-          └── package.json
+      <div class="space-y-4 text-zinc-300 text-sm leading-relaxed">
+        <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-white font-bold text-sm">1. Host Matching (<code class="text-amber-300 font-mono">$..host[*]</code>)</span>
+            <a href="https://caddyserver.com/docs/json/apps/http/servers/routes/match/host/" target="_blank" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono">
+              <span>Caddy Host Matcher Docs</span>
+              <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+          </div>
+          <p class="text-zinc-400 text-xs">
+            Caddy encapsulates host declarations in route matchers. We use <code class="text-zinc-300 font-mono">jsonpathly</code> to extract hostnames without brittle manual loops.
+          </p>
+        </div>
+
+        <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-white font-bold text-sm">2. Reverse Proxy Upstreams (<code class="text-amber-300 font-mono">dial</code>)</span>
+            <a href="https://caddyserver.com/docs/json/apps/http/servers/routes/handle/reverse_proxy/upstreams/dial/" target="_blank" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono">
+              <span>Caddy Dial Upstream Docs</span>
+              <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+          </div>
+          <p class="text-zinc-400 text-xs">
+            Caddy defines backend targets using <code class="text-zinc-300 font-mono">dial</code> (e.g. <code class="text-amber-300 font-mono">localhost:8080</code>). We extract and group these to instantly display occupied ports.
+          </p>
+        </div>
+
+        <div class="bg-zinc-950 border border-zinc-800 rounded-lg p-4">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-white font-bold text-sm">3. Subroutes &amp; Path Handlers</span>
+            <a href="https://caddyserver.com/docs/json/apps/http/servers/routes/handle/subroute/" target="_blank" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono">
+              <span>Caddy Subroute Docs</span>
+              <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+          </div>
+          <p class="text-zinc-400 text-xs">
+            Subroutes group multiple handlers under one domain (e.g. WebSocket on <code class="text-amber-300 font-mono">/ws*</code> and main app on <code class="text-amber-300 font-mono">*</code>). Our engine recursively resolves and maps both.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Version Timeline Section -->
-    <section id="versions" class="w-full text-left mb-12">
+    <!-- Version Evolution -->
+    <section class="w-full text-left mb-12">
       <div class="flex items-center gap-2 text-amber-400 font-semibold text-xs tracking-wider uppercase mb-3">
-        <i class="bi bi-clock-history"></i>
-        <span>Version History &amp; Evolution</span>
+        <i class="bi bi-layers-fill"></i>
+        <span>Version Evolution</span>
       </div>
-      <h2 class="text-2xl font-bold text-white mb-6">Evolution Timeline</h2>
+      <h2 class="text-2xl font-bold text-white mb-6">Evolution Specifications</h2>
 
-      <div class="space-y-6">
-        <!-- V1 Card -->
-        <div class="bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 transition hover:border-zinc-700">
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2">
-              <span class="bg-zinc-800 text-zinc-300 font-mono text-xs font-bold px-2.5 py-1 rounded">V1</span>
-              <span class="text-white font-semibold text-base">Genesis: Hostname &amp; JSONPath Extractor</span>
-            </div>
-            <a href="./v1/" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono">
-              <span>View V1 Docs</span>
-              <i class="bi bi-arrow-right"></i>
-            </a>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a href="./v1/" class="block bg-zinc-900 border border-zinc-800 hover:border-zinc-700 p-5 rounded-xl transition group">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-mono text-xs font-bold bg-zinc-800 px-2 py-0.5 rounded text-zinc-300">v1 Spec</span>
+            <i class="bi bi-arrow-right text-zinc-500 group-hover:text-amber-400 transition"></i>
           </div>
-          <p class="text-zinc-400 text-xs mb-3">
-            Introduced fast querying via <code class="text-amber-300 font-mono">jsonpathly</code>, table output of hosts and paths, and unique host list output.
-          </p>
-          <div class="font-mono text-xs text-zinc-500">
-            Commands: <code class="text-zinc-300">npx caddy-cli -u</code>, <code class="text-zinc-300">npx caddy-cli --json</code>
-          </div>
-        </div>
+          <h3 class="text-white font-bold text-sm mb-1">Genesis: Hostnames &amp; JSONPath</h3>
+          <p class="text-zinc-400 text-xs">Minimalist extractor for hostnames and JSONPath resolution.</p>
+        </a>
 
-        <!-- V2 Card -->
-        <div class="bg-zinc-900 border border-amber-800/60 rounded-xl p-6 transition hover:border-amber-600 shadow-md">
-          <div class="flex items-center justify-between mb-3">
-            <div class="flex items-center gap-2">
-              <span class="bg-amber-500 text-black font-mono text-xs font-bold px-2.5 py-1 rounded">V2 (Current)</span>
-              <span class="text-white font-semibold text-base">Observability: Upstream Ports, Handlers &amp; Route Drill-Down</span>
-            </div>
-            <a href="./v2/" class="text-xs text-amber-400 hover:underline flex items-center gap-1 font-mono">
-              <span>View V2 Docs</span>
-              <i class="bi bi-arrow-right"></i>
-            </a>
+        <a href="./v2/" class="block bg-zinc-900 border border-amber-800/60 hover:border-amber-600 p-5 rounded-xl transition group shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-mono text-xs font-bold bg-amber-500 px-2 py-0.5 rounded text-black">v2 Flagship</span>
+            <i class="bi bi-arrow-right text-zinc-500 group-hover:text-amber-400 transition"></i>
           </div>
-          <p class="text-zinc-300 text-xs mb-3">
-            Recursive handler parser extracting reverse-proxy upstreams (<code class="text-amber-300 font-mono">dial</code> targets), static file server roots, matched subroutes, port mappings table (<code class="text-amber-300 font-mono">-p</code>), and single-domain configuration inspection (<code class="text-amber-300 font-mono">-d &lt;domain&gt;</code>).
-          </p>
-          <div class="font-mono text-xs text-zinc-400">
-            Commands: <code class="text-amber-300">npx caddy-cli</code>, <code class="text-amber-300">npx caddy-cli -p</code>, <code class="text-amber-300">npx caddy-cli -d sub.domain.com</code>
-          </div>
-        </div>
+          <h3 class="text-white font-bold text-sm mb-1">Observability: Upstream Ports &amp; Routes</h3>
+          <p class="text-zinc-400 text-xs">Upstream dials, port mapping (-p), and single-domain inspection (-d).</p>
+        </a>
       </div>
     </section>
 
   </main>
 
-  <!-- Footer -->
+  <!-- Footer with caddyserver.com attribution -->
   <footer class="border-t border-zinc-800 bg-zinc-900/40 py-8 text-center text-xs text-zinc-500 font-mono">
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
       <div>
-        Created with &hearts; by <a href="https://github.com/keshavsoft" class="text-zinc-400 hover:text-white transition">KeshavSoft</a>
+        Built with &hearts; by <a href="https://github.com/keshavsoft" class="text-zinc-400 hover:text-white transition">KeshavSoft</a> &bull; Supporting the <a href="https://caddyserver.com" target="_blank" rel="noopener noreferrer" class="text-amber-400 hover:underline">Caddy Server</a> ecosystem.
       </div>
       <div class="flex items-center gap-4">
+        <a href="https://caddyserver.com/docs/" target="_blank" class="hover:text-zinc-300 transition">Caddy Official Docs</a>
         <a href="https://www.npmjs.com/package/caddy-cli" class="hover:text-zinc-300 transition">npm</a>
         <a href="https://github.com/keshavsoft/caddy-cli" class="hover:text-zinc-300 transition">GitHub</a>
-        <a href="https://caddyserver.com" target="_blank" rel="noopener noreferrer" class="hover:text-zinc-300 transition">Caddy Server</a>
       </div>
     </div>
   </footer>
@@ -440,4 +428,3 @@
 
 </body>
 </html>
-
