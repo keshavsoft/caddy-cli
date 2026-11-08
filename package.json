@@ -1,6 +1,6 @@
 {
   "name": "caddy-cli",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "CLI tool to extract hostnames and paths from Caddy JSON configurations",
   "license": "ISC",
   "author": "KeshavSoft",
@@ -16,7 +16,8 @@
   "main": "./src/index.js",
   "exports": {
     ".": "./src/index.js",
-    "./v1": "./src/v1/index.js"
+    "./v1": "./src/v1/index.js",
+    "./v2": "./src/v2/index.js"
   },
   "bin": {
     "caddy-cli": "./bin/index.js",
