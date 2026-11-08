@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>caddy-cli v1 — Genesis Hostname & JSONPath Extractor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- Navbar -->
+  <nav class="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <a href="../" class="flex items-center gap-2 text-zinc-200 hover:text-white transition">
+          <i class="bi bi-arrow-left text-zinc-400"></i>
+          <span class="font-bold text-sm uppercase">caddy-cli</span>
+        </a>
+        <span class="text-xs font-mono bg-zinc-800 text-amber-400 px-2 py-0.5 rounded">v1</span>
+      </div>
+      <div class="flex items-center gap-2 text-xs font-mono">
+        <a href="../" class="text-zinc-400 hover:text-white px-2 py-1 rounded">Home</a>
+        <a href="../v2/" class="text-zinc-400 hover:text-white px-2 py-1 rounded">v2 Docs</a>
+        <a href="https://github.com/keshavsoft/caddy-cli" class="text-zinc-400 hover:text-white p-1.5"><i class="bi bi-github"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-8">
+      <span class="bg-zinc-800 text-zinc-300 font-mono text-xs font-bold px-2.5 py-1 rounded">Version 1 Specification</span>
+      <h1 class="text-3xl font-extrabold text-white mt-3">v1: Hostname &amp; JSONPath Extractor</h1>
+      <p class="text-zinc-400 text-sm mt-2">
+        The genesis version designed to rapidly extract all declared hostnames and their structural JSON paths from Caddy JSON files.
+      </p>
+    </div>
+
+    <!-- Core Purpose -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-8">
+      <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2">
+        <i class="bi bi-bullseye text-amber-400"></i>
+        <span>Purpose &amp; Design Goals</span>
+      </h2>
+      <p class="text-zinc-300 text-xs leading-relaxed mb-4">
+        In Caddy, every route matching block encapsulates host declarations inside <code class="text-amber-300 font-mono">match[].host[]</code> arrays. V1 established the foundation by employing <code class="text-amber-300 font-mono">jsonpathly</code> to search the entire document tree using the expression:
+      </p>
+      <div class="bg-zinc-950 border border-zinc-800 p-3 rounded font-mono text-xs text-amber-300 mb-4">
+        $..host[*]
+      </div>
+      <p class="text-zinc-300 text-xs leading-relaxed">
+        This yields both the raw string array of hostnames and their full JSON traversal path (e.g. <code class="text-zinc-400 font-mono">$['apps']['http']['servers']['srv0']['routes'][0]['match'][0]['host'][0]</code>).
+      </p>
+    </div>
+
+    <!-- CLI Commands in V1 -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-8">
+      <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <i class="bi bi-terminal-fill text-amber-400"></i>
+        <span>V1 CLI Usage</span>
+      </h2>
+      <div class="space-y-4 text-xs font-mono">
+        <div>
+          <div class="text-zinc-400 mb-1"># Print table of hostnames and their JSON paths:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli</div>
+        </div>
+        <div>
+          <div class="text-zinc-400 mb-1"># Print only unique hostnames:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli -u</div>
+        </div>
+        <div>
+          <div class="text-zinc-400 mb-1"># Output as JSON array:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli --json</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Programmatic ESM Usage -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+      <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <i class="bi bi-code-slash text-amber-400"></i>
+        <span>V1 Programmatic API</span>
+      </h2>
+      <pre class="bg-zinc-950 border border-zinc-800 p-4 rounded font-mono text-xs text-zinc-300 overflow-x-auto">
+import { extractHosts, extractHostsFromFile } from "caddy-cli/v1";
+
+// From file:
+const { hosts, hostPaths, uniqueHosts, tableData } = extractHostsFromFile("./caddy.json");
+
+// From in-memory object:
+const res = extractHosts(caddyConfig);
+console.log(res.uniqueHosts);
+      </pre>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-800 py-6 text-center text-xs text-zinc-500 font-mono">
+    caddy-cli &bull; KeshavSoft &bull; <a href="../" class="text-zinc-400 hover:text-white">Main Overview</a>
+  </footer>
+
+</body>
+</html>

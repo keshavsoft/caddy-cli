@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>caddy-cli v2 — Reverse Proxy Upstreams, Port Mapping & Route Inspection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 antialiased min-h-screen flex flex-col font-sans">
+
+  <!-- Navbar -->
+  <nav class="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5">
+        <a href="../" class="flex items-center gap-2 text-zinc-200 hover:text-white transition">
+          <i class="bi bi-arrow-left text-zinc-400"></i>
+          <span class="font-bold text-sm uppercase">caddy-cli</span>
+        </a>
+        <span class="text-xs font-mono bg-amber-500 text-black font-bold px-2 py-0.5 rounded">v2 Flagship</span>
+      </div>
+      <div class="flex items-center gap-2 text-xs font-mono">
+        <a href="../" class="text-zinc-400 hover:text-white px-2 py-1 rounded">Home</a>
+        <a href="../v1/" class="text-zinc-400 hover:text-white px-2 py-1 rounded">v1 Docs</a>
+        <a href="https://github.com/keshavsoft/caddy-cli" class="text-zinc-400 hover:text-white p-1.5"><i class="bi bi-github"></i></a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-12">
+    <div class="mb-8">
+      <span class="bg-amber-500 text-black font-mono text-xs font-bold px-2.5 py-1 rounded">Version 2 Flagship Specification</span>
+      <h1 class="text-3xl font-extrabold text-white mt-3">v2: Upstream Ports &amp; Route Inspector</h1>
+      <p class="text-zinc-400 text-sm mt-2">
+        Transforms caddy-cli into a full reverse proxy observability tool by resolving backend dial targets, mapping occupied ports, and inspecting individual subdomain configurations.
+      </p>
+    </div>
+
+    <!-- Core Features in V2 -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+        <div class="text-amber-400 text-lg mb-2"><i class="bi bi-diagram-2"></i></div>
+        <h3 class="text-sm font-bold text-white mb-1">Recursive Subroute Parsing</h3>
+        <p class="text-zinc-400 text-xs leading-relaxed">
+          Traverses Caddy's <code class="text-amber-300 font-mono">handle &rarr; subroute &rarr; routes &rarr; handle</code> trees to extract <code class="text-zinc-300 font-mono">reverse_proxy</code> upstreams and <code class="text-zinc-300 font-mono">file_server</code> roots.
+        </p>
+      </div>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+        <div class="text-emerald-400 text-lg mb-2"><i class="bi bi-ethernet"></i></div>
+        <h3 class="text-sm font-bold text-white mb-1">Port &amp; Dial Target Mapping</h3>
+        <p class="text-zinc-400 text-xs leading-relaxed">
+          Instantly answers "Which domain is on port 3001?" or "Is port 9012 already taken?" with the dedicated <code class="text-amber-300 font-mono">-p / --ports</code> flag.
+        </p>
+      </div>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+        <div class="text-sky-400 text-lg mb-2"><i class="bi bi-search"></i></div>
+        <h3 class="text-sm font-bold text-white mb-1">Subdomain Configuration Drill-down</h3>
+        <p class="text-zinc-400 text-xs leading-relaxed">
+          Inspect only a single subdomain's configuration block without sifting through a massive 300-line JSON document via <code class="text-amber-300 font-mono">-d &lt;domain&gt;</code>.
+        </p>
+      </div>
+
+      <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
+        <div class="text-purple-400 text-lg mb-2"><i class="bi bi-filetype-json"></i></div>
+        <h3 class="text-sm font-bold text-white mb-1">Raw JSON Output (--json)</h3>
+        <p class="text-zinc-400 text-xs leading-relaxed">
+          Outputs structured JSON for direct piping into <code class="text-zinc-300 font-mono">jq</code>, automation scripts, or deployment pipelines.
+        </p>
+      </div>
+    </div>
+
+    <!-- CLI Commands in V2 -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-8">
+      <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <i class="bi bi-terminal-fill text-amber-400"></i>
+        <span>V2 CLI Commands &amp; Options</span>
+      </h2>
+      <div class="space-y-4 text-xs font-mono">
+        <div>
+          <div class="text-zinc-400 mb-1"># 1. Default: View all domains, upstream ports, and match paths:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli</div>
+        </div>
+        <div>
+          <div class="text-zinc-400 mb-1"># 2. View port &amp; dial target mappings:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli -p</div>
+        </div>
+        <div>
+          <div class="text-zinc-400 mb-1"># 3. Inspect a specific subdomain configuration:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli -d quotation.keshavsoft.com</div>
+        </div>
+        <div>
+          <div class="text-zinc-400 mb-1"># 4. Extract raw route JSON for a subdomain:</div>
+          <div class="bg-zinc-950 p-3 rounded border border-zinc-800 text-amber-300">npx caddy-cli cc9.keshavsoft.com --json</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Programmatic ESM Usage -->
+    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+      <h2 class="text-lg font-bold text-white mb-3 flex items-center gap-2">
+        <i class="bi bi-code-slash text-amber-400"></i>
+        <span>V2 Programmatic API</span>
+      </h2>
+      <pre class="bg-zinc-950 border border-zinc-800 p-4 rounded font-mono text-xs text-zinc-300 overflow-x-auto">
+import {
+  inspectRoutes,
+  inspectRoutesFromFile,
+  getPortMappings,
+  getPortMappingsFromFile,
+  findRouteByHost,
+  findRouteByHostFromFile
+} from "caddy-cli";
+
+// Inspect all routes & reverse proxy dials:
+const routes = inspectRoutesFromFile("./caddy.json");
+
+// Map all backend ports:
+const ports = getPortMappingsFromFile("./caddy.json");
+
+// Find route for specific domain:
+const match = findRouteByHostFromFile("./caddy.json", "cc9.keshavsoft.com");
+console.log(match.rawRoute);
+      </pre>
+    </div>
+  </main>
+
+  <footer class="border-t border-zinc-800 py-6 text-center text-xs text-zinc-500 font-mono">
+    caddy-cli &bull; KeshavSoft &bull; <a href="../" class="text-zinc-400 hover:text-white">Main Overview</a>
+  </footer>
+
+</body>
+</html>

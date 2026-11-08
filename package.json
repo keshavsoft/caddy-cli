@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/keshavsoft/caddy-cli/issues"
   },
-  "homepage": "https://github.com/keshavsoft/caddy-cli#readme",
+  "homepage": "https://keshavsoft.github.io/caddy-cli/",
   "type": "module",
   "main": "./src/index.js",
   "exports": {
@@ -26,6 +26,7 @@
   "files": [
     "bin",
     "src",
+    "docs",
     "README.md"
   ],
   "scripts": {
