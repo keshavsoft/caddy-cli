@@ -17,7 +17,8 @@
   "exports": {
     ".": "./src/index.js",
     "./v1": "./src/v1/index.js",
-    "./v2": "./src/v2/index.js"
+    "./v2": "./src/v2/index.js",
+    "./v3": "./src/v3/index.js"
   },
   "bin": {
     "caddy-cli": "bin/index.js",
@@ -27,6 +28,7 @@
     "bin",
     "src",
     "docs",
+    "samples",
     "README.md"
   ],
   "scripts": {
@@ -35,6 +37,7 @@
     "test": "node --test"
   },
   "dependencies": {
+    "caddy-subdomain": "^1.0.0",
     "caddy-template": "^1.0.0",
     "jsonpathly": "^4.0.0"
   }
