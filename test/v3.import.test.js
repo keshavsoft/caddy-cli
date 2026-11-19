@@ -56,3 +56,10 @@ test("v3 functions can be imported individually via named destructuring", async 
   assert.ok(addSubdomain);
   assert.ok(addSubdomainToFile);
 });
+
+test("root index.js hooks the highest version (v3)", async () => {
+  const root = await import("../src/index.js");
+  assert.equal(typeof root.addSubdomain, "function");
+  assert.equal(typeof root.readCaddyConfig, "function");
+  assert.equal(typeof root.buildProxyRoute, "function");
+});

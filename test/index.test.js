@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import extractHosts, { extractHostsFromFile, HOST_EXPRESSION } from "../src/index.js";
+import extractHosts, { extractHostsFromFile, HOST_EXPRESSION } from "../src/v1/index.js";
 import * as v1 from "../src/v1/index.js";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";

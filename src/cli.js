@@ -1,2 +1,2 @@
-export { default } from "./v2/cli.js";
-export * from "./v2/cli.js";
+export { default } from "./v3/cli.js";
+export * from "./v3/cli.js";

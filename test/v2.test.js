@@ -11,7 +11,7 @@ import {
   findRouteByHostFromFile,
   addRoute,
   addRouteToFile
-} from "../src/index.js";
+} from "../src/v2/index.js";
 import * as v2 from "../src/v2/index.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
