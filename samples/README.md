@@ -16,6 +16,7 @@ Each folder contains a standalone script demonstrating a single step in the stor
 | **04** | [`v3/04-build-route/`](v3/04-build-route/) | Assembling the clean Caddy route JSON block | `node samples/v3/04-build-route/run.js` |
 | **05** | [`v3/05-add-subdomain/`](v3/05-add-subdomain/) | Appending a new route in-memory | `node samples/v3/05-add-subdomain/run.js` |
 | **06** | [`v3/06-add-to-file/`](v3/06-add-to-file/) | End-to-end: Add to file with auto-backup | `node samples/v3/06-add-to-file/run.js` |
+| **07** | [`v3/07-probe-subdomain/`](v3/07-probe-subdomain/) | Level-1 Probe: Verify DNS & HTTPS zero-dependency | `node samples/v3/07-probe-subdomain/run.js` |
 
 ---
 
@@ -29,6 +30,7 @@ node samples/v3/03-check-subdomain/run.js
 node samples/v3/04-build-route/run.js
 node samples/v3/05-add-subdomain/run.js
 node samples/v3/06-add-to-file/run.js
+node samples/v3/07-probe-subdomain/run.js
 ```
 
 ### Or using Windows `.bat` files directly:

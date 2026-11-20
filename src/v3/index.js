@@ -10,6 +10,9 @@ export {
   writeCaddyConfig,
   listSubdomains,
   hasSubdomain,
+  buildProbeRoute,
+  addProbeSubdomain,
+  addProbeSubdomainToFile,
   buildProxyRoute,
   addSubdomain,
   addSubdomainToFile
