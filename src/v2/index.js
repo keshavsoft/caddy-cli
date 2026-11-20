@@ -73,6 +73,8 @@ export function inspectRoutes(caddyConfig) {
             targets.push({ type: "reverse_proxy", dials, path: currentPath });
           } else if (h.handler === "file_server") {
             targets.push({ type: "file_server", dials: [], root: rootDir, path: currentPath });
+          } else if (h.handler === "static_response") {
+            targets.push({ type: "static_response", dials: [], root: "static_response (200 OK)", path: currentPath });
           } else if (h.handler === "subroute") {
             (h.routes || []).forEach((sub) => {
               const subPaths = [];
