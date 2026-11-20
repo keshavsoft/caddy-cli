@@ -34,6 +34,14 @@ export function resolveDefaultCaddyPath(customPath) {
   if (existsSync(localPath)) return localPath;
   const vpsPath = "/etc/caddy/caddy.json";
   if (existsSync(vpsPath)) return vpsPath;
+  const sampleLocal = resolve(process.cwd(), "./caddy.sample.json");
+  if (existsSync(sampleLocal)) return sampleLocal;
+  const sampleDir = resolve(process.cwd(), "./samples/caddy.sample.json");
+  if (existsSync(sampleDir)) return sampleDir;
+  const workspaceSample = resolve(process.cwd(), "./caddy-cli/samples/caddy.sample.json");
+  if (existsSync(workspaceSample)) return workspaceSample;
+  const parentSample = resolve(process.cwd(), "../samples/caddy.sample.json");
+  if (existsSync(parentSample)) return parentSample;
   return localPath;
 }
 

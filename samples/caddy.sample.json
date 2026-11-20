@@ -289,6 +289,16 @@
                 }
               ],
               "terminal": true
+            },
+            {
+              "match": [
+                {
+                  "host": [
+                    "call.keshavsoft.com"
+                  ]
+                }
+              ],
+              "terminal": true
             }
           ]
         },
