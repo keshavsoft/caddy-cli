@@ -202,6 +202,26 @@ console.log(route.rawRoute);
 
 ---
 
+## 🧩 The KeshavSoft Caddy Suite Ecosystem
+
+`caddy-cli` is one part of a unified, 4-tool cloud ingress ecosystem:
+
+| Repository | Responsibility | npm / Docs | Key Command |
+| :--- | :--- | :--- | :--- |
+| **[`caddy-cli`](https://github.com/keshavsoft/caddy-cli)** | Observability & Port Mapping | [![npm](https://img.shields.io/npm/v/caddy-cli.svg?style=flat-square)](https://www.npmjs.com/package/caddy-cli) | `npx caddy-cli -p` |
+| **[`caddy-template`](https://github.com/keshavsoft/caddy-template)** | Route Blueprint Generation | [![npm](https://img.shields.io/npm/v/caddy-template.svg?style=flat-square)](https://www.npmjs.com/package/caddy-template) | `npx caddy-template proxy <host> <port>` |
+| **[`caddy-subdomain`](https://github.com/keshavsoft/caddy-subdomain)** | Smoke Probes & Promotion | [![npm](https://img.shields.io/npm/v/caddy-subdomain.svg?style=flat-square)](https://www.npmjs.com/package/caddy-subdomain) | `npx caddy-subdomain probe <host>` |
+| **[`caddy-fileserver`](https://github.com/keshavsoft/caddy-fileserver)** | Ubuntu Filesystem Bridge | [![npm](https://img.shields.io/npm/v/caddy-fileserver.svg?style=flat-square)](https://www.npmjs.com/package/caddy-fileserver) | `npx caddy-fileserver init <host>` |
+| **[`caddy-knowledge`](https://github.com/keshavsoft/caddy-knowledge)** | Master Architectural Handbook | [Live Handbook](https://keshavsoft.github.io/caddy-knowledge/) | Full Suite Reference |
+| **[`caddy-hosting`](https://github.com/keshavsoft/caddy-hosting)** | Unified Gateway & Hub | [Live Portal](https://keshavsoft.github.io/caddy-hosting/) | Gateway Hub |
+
+### The 3-Stage VPS Subdomain Maturity Model
+1. **Stage 1 (Smoke Probe):** `npx caddy-subdomain probe <domain>` &rarr; verifies DNS & SSL in memory (200 OK) with zero code/disk.
+2. **Stage 2 (Static File Server):** `npx caddy-fileserver init <domain>` &rarr; provisions `/usr/share/<domain>` & native `file_server`.
+3. **Stage 3 (Dynamic Node Backend):** `npx caddy-cli -p` (find free port) &rarr; `npx caddy-subdomain add <domain> <port>` (promote to reverse proxy).
+
+---
+
 ## 📄 License
 
 [ISC](LICENSE) &copy; [KeshavSoft](https://github.com/keshavsoft) &bull; Supporting the [Caddy Server](https://caddyserver.com) community.
